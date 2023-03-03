@@ -7,6 +7,7 @@ import (
   "sync"
 
 	"github.com/google/go-github/v50/github"
+	"github.com/common-nighthawk/go-figure"
 	"github.com/spf13/cobra"
 )
 
@@ -17,6 +18,11 @@ func main() {
 	rootCmd := &cobra.Command{
 		Use:   "github",
 		Short: "A command-line tool to retrieve GitHub user and repository details",
+		Run: func(cmd *cobra.Command, args []string) {
+			// Generate ASCII art using go-figure library
+			ascii := figure.NewFigure("LOKI", "", true)
+			ascii.Print()
+		},
 	}
 
 	userCmd := &cobra.Command{
@@ -59,6 +65,10 @@ func getClient() *github.Client {
 }
 
 func getUser(cmd *cobra.Command, args []string) error {
+
+	ascii := figure.NewColorFigure("LOKI", "","green", true)
+	ascii.Print()
+
 	if user == "" {
 		return fmt.Errorf("user flag is required")
 	}
@@ -83,6 +93,10 @@ func getUser(cmd *cobra.Command, args []string) error {
 }
 
 func getRepos(cmd *cobra.Command, args []string) error {
+
+		ascii := figure.NewColorFigure("LOKI", "","green", true)
+	ascii.Print()
+
 	if user == "" {
 		return fmt.Errorf("user flag is required")
 	}
@@ -119,7 +133,10 @@ func getRepos(cmd *cobra.Command, args []string) error {
 
 func getOrgs(cmd *cobra.Command, args []string) error {
 
-  if user == "" {
+		ascii := figure.NewColorFigure("LOKI", "","green", true)
+	ascii.Print()
+
+	if user == "" {
     return fmt.Errorf("user flag is required")
   }
 

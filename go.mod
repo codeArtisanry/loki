@@ -3,6 +3,7 @@ module github.com/loki
 go 1.19
 
 require (
+	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/google/go-github/v50 v50.1.0
 	github.com/spf13/cobra v1.6.1
 )
