@@ -27,5 +27,7 @@
  go run main.go repo -u <USERNAME>  
 ```
 
+- Binaries are in `bin/` dir
+
 ---
 Contributors are welcome to make this package more efficient and give any suggestions.
