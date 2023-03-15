@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log"
-  "sync"
+	"sync"
 
-	"github.com/google/go-github/v50/github"
 	"github.com/common-nighthawk/go-figure"
+	"github.com/google/go-github/v50/github"
 	"github.com/spf13/cobra"
 )
 
@@ -52,7 +52,6 @@ func main() {
 	orgCmd.Flags().StringVarP(&user, "user", "u", "", "GitHub username")
 	orgCmd.Flags().IntVarP(&threads, "threads", "t", 1, "Number of threads to use")
 
-
 	rootCmd.AddCommand(userCmd, repoCmd, orgCmd)
 
 	if err := rootCmd.Execute(); err != nil {
@@ -66,7 +65,7 @@ func getClient() *github.Client {
 
 func getUser(cmd *cobra.Command, args []string) error {
 
-	ascii := figure.NewColorFigure("LOKI", "","green", true)
+	ascii := figure.NewColorFigure("LOKI", "", "green", true)
 	ascii.Print()
 
 	if user == "" {
@@ -85,16 +84,16 @@ func getUser(cmd *cobra.Command, args []string) error {
 	fmt.Println("Company:", u.GetCompany())
 	fmt.Println("Location:", u.GetLocation())
 	fmt.Println("Bio:", u.GetBio())
-  fmt.Println("Followers:", u.GetFollowers())
-  fmt.Println("Following:", u.GetFollowing())
-  fmt.Println("Created:", u.GetCreatedAt())
-  fmt.Println("Updated:", u.GetUpdatedAt())
+	fmt.Println("Followers:", u.GetFollowers())
+	fmt.Println("Following:", u.GetFollowing())
+	fmt.Println("Created:", u.GetCreatedAt())
+	fmt.Println("Updated:", u.GetUpdatedAt())
 	return nil
 }
 
 func getRepos(cmd *cobra.Command, args []string) error {
 
-		ascii := figure.NewColorFigure("LOKI", "","green", true)
+	ascii := figure.NewColorFigure("LOKI", "", "green", true)
 	ascii.Print()
 
 	if user == "" {
@@ -133,37 +132,36 @@ func getRepos(cmd *cobra.Command, args []string) error {
 
 func getOrgs(cmd *cobra.Command, args []string) error {
 
-		ascii := figure.NewColorFigure("LOKI", "","green", true)
+	ascii := figure.NewColorFigure("LOKI", "", "green", true)
 	ascii.Print()
 
 	if user == "" {
-    return fmt.Errorf("user flag is required")
-  }
+		return fmt.Errorf("user flag is required")
+	}
 
-  client := getClient()
+	client := getClient()
 
-  opt := &github.ListOptions{PerPage: 10}
-  orgs, _, err := client.Organizations.List(context.Background(), user, opt)
-  if err != nil {
-    return err
-  }
+	opt := &github.ListOptions{PerPage: 10}
+	orgs, _, err := client.Organizations.List(context.Background(), user, opt)
+	if err != nil {
+		return err
+	}
 
-  wg := &sync.WaitGroup{}
-  for i := 0; i < threads; i++ {
-    wg.Add(1)
-    go func(start, end int) {
-      defer wg.Done()
-      for j := start; j < end; j++ {
-        o := orgs[j]
-        	fmt.Println("Name:", o.GetName())
-      		fmt.Println("Description:", o.GetDescription())
-      		fmt.Println("Location:", o.GetLocation())
-      		fmt.Println()
-      }
-    }(i*len(orgs)/threads, (i+1)*len(orgs)/threads)
-  }
-  wg.Wait()
+	wg := &sync.WaitGroup{}
+	for i := 0; i < threads; i++ {
+		wg.Add(1)
+		go func(start, end int) {
+			defer wg.Done()
+			for j := start; j < end; j++ {
+				o := orgs[j]
+				fmt.Println("Name:", o.GetName())
+				fmt.Println("Description:", o.GetDescription())
+				fmt.Println("Location:", o.GetLocation())
+				fmt.Println()
+			}
+		}(i*len(orgs)/threads, (i+1)*len(orgs)/threads)
+	}
+	wg.Wait()
 
-
-  return nil
+	return nil
 }
