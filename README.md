@@ -9,3 +9,23 @@
 ---
 
 - loki Github user email and details finder
+
+---
+# Usage And Cmds
+
+- To get Github User detail, Use below command
+```
+ go run main.go user -u <USERNAME> 
+```
+- For threads ` -t` is there
+``` 
+ go run main.go user -u <USERNAME> -t 1
+```
+
+- For Repo of the user 
+```
+ go run main.go repo -u <USERNAME>  
+```
+
+---
+Contributors are welcome to make this package more efficient and give any suggestions.
